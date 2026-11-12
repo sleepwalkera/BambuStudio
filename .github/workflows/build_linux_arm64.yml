@@ -1,0 +1,28 @@
+name: Build Linux arm64 AppImage
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - 'deps/**'
+      - 'src/**'
+      - '**/CMakeLists.txt'
+      - 'version.inc'
+      - 'resources/**'
+      - '.github/workflows/build_linux_arm64.yml'
+      - '.github/workflows/build_*.yml'
+      - 'BuildLinux.sh'
+
+jobs:
+  build_arm64:
+    name: Build Linux arm64
+    # GitHub-hosted ARM64 runner (aarch64), 4 vCPU / 16 GB RAM / 70 GB SSD.
+    # The deps cache key is derived from the runner label (ubuntu-24.04-arm),
+    # so the ARM deps never collide with the x86_64 builds of the same set of
+    # reusable workflows.
+    uses: ./.github/workflows/build_check_cache.yml
+    with:
+      os: ubuntu-24.04-arm
+    secrets: inherit
