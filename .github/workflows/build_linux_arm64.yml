@@ -19,10 +19,12 @@ jobs:
   build_arm64:
     name: Build Linux arm64
     # GitHub-hosted ARM64 runner (aarch64), 4 vCPU / 16 GB RAM / 70 GB SSD.
-    # The deps cache key is derived from the runner label (ubuntu-24.04-arm),
-    # so the ARM deps never collide with the x86_64 builds of the same set of
-    # reusable workflows.
+    # Build on 22.04 (glibc 2.35) so the AppImage runs on the widest range of
+    # ARM Linux systems (anything >= Ubuntu 22.04 / Debian 12). The deps cache
+    # key is derived from the runner label (ubuntu-22.04-arm), so the ARM deps
+    # never collide with the x86_64 builds of the same set of reusable
+    # workflows.
     uses: ./.github/workflows/build_check_cache.yml
     with:
-      os: ubuntu-24.04-arm
+      os: ubuntu-22.04-arm
     secrets: inherit
